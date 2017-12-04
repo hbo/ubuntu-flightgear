@@ -28,7 +28,7 @@ ARG VERSION='2017.3.1'
 WORKDIR /usr/src/simbuild 
 
 RUN cmake ../simgear-${VERSION} -DCMAKE_BUILD_TYPE=Release
-RUN make -j 4
+RUN make -j 3
 RUN make install
 
 FROM buildbase as fgbuild
@@ -47,7 +47,7 @@ RUN apt-get install -y libplib-dev
 RUN apt-get install -y libqt5opengl5-dev
 RUN apt-get install -y  qtdeclarative5-dev
 RUN cmake ../flightgear-${VERSION} -DCMAKE_BUILD_TYPE=Release
-RUN make -j 4
+RUN make -j 3
 RUN make install
 
 
@@ -66,7 +66,7 @@ RUN apt-get update \
        libqt5qml5 \
        libopenthreads20 \
        libopenscenegraph100v5 \
-       strace less \
+       strace less man \
        mesa-utils \
     &&  apt-get autoclean && rm -rf /var/lib/apt/*
 
