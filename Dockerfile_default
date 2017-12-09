@@ -15,7 +15,6 @@ RUN apt-get install -y libopenscenegraph-dev
 RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y libcurl4-openssl-dev
 
-ADD nvidialayer.tar.gz /
 
 RUN mkdir /usr/src/simbuild /usr/src/fgbuild
 
@@ -69,14 +68,13 @@ RUN apt-get update \
     && useradd  -c "henrik"  -g 500 -u 500  henrik \
     &&  apt-get autoclean && rm -rf /var/lib/apt/*
 
-ADD nvidialayer.tar.gz /
-RUN ldconfig
+
 
 FROM runenv
 
 VOLUME /fgfs
 
-ENV DISPLAY :0
+ENV DISPLAY unix:0
 ENV FG_ROOT /fgfs 
 ENV FG_SCENERY /fgfs/Scenery 
 
