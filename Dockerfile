@@ -1,9 +1,7 @@
-FROM ubuntu as buildbase
+FROM home/ubuntu as buildbase
 
 ENV DEBIAN_FRONTEND noninteractive
 ARG VERSION='2017.3.1'
-
-COPY 02proxy /etc/apt/apt.conf.d/02proxy
 
 ADD simgear-${VERSION}.tar.bz2 /usr/src
 ADD flightgear-${VERSION}.tar.bz2 /usr/src
@@ -51,11 +49,10 @@ RUN make -j 3
 RUN make install
 
 
-FROM ubuntu  as runenv
+FROM home/ubuntu  as runenv
 
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY 02proxy /etc/apt/apt.conf.d/02proxy
 
 RUN apt-get update \
     && apt-get install -y libopenal1 \
