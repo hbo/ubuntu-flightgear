@@ -65,7 +65,7 @@ RUN apt-get update \
        strace less man \
        mesa-utils \
     && groupadd   -g 500   henrik \
-    && useradd  -c "henrik"  -g 500 -u 500  henrik \
+    && useradd  -c "henrik" -G video  -g 500 -u 500  henrik \
     &&  apt-get autoclean && rm -rf /var/lib/apt/*
 
 
