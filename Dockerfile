@@ -68,11 +68,23 @@ RUN apt-get update \
        libopenscenegraph100v5 \
        strace less man \
        mesa-utils \
+    && groupadd   -g 500   henrik \
+    && useradd  -c "henrik"  -g 500 -u 500  henrik \
     &&  apt-get autoclean && rm -rf /var/lib/apt/*
 
 ADD nvidialayer.tar.gz /
-
+RUN ldconfig
 
 FROM runenv
 
+VOLUME /fgfs
+
+ENV DISPLAY :0
+ENV FG_ROOT /fgfs 
+ENV FG_SCENERY /fgfs/Scenery 
+
 COPY --from=fgbuild /usr/local /usr/local
+
+USER henrik
+
+CMD /usr/local/bin/fgfs 
