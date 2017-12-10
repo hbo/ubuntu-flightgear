@@ -51,6 +51,7 @@ RUN make install
 FROM home/ubuntu  as runenv
 
 ENV DEBIAN_FRONTEND noninteractive
+ARG UID=500
 
 
 RUN apt-get update \
@@ -65,7 +66,7 @@ RUN apt-get update \
        strace less man \
        mesa-utils \
     && groupadd   -g 500   henrik \
-    && useradd  -c "henrik" -G video  -g 500 -u 500  henrik \
+    && useradd  -c "henrik" -G video  -g 500 -u ${UID}  henrik \
     &&  apt-get autoclean && rm -rf /var/lib/apt/*
 
 

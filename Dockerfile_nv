@@ -1,4 +1,27 @@
-FROM home/ubuntu as buildbase
+ARG HOST
+
+FROM home/nv:${HOST}  as runenv
+
+ENV DEBIAN_FRONTEND noninteractive
+
+ARG UID=500
+
+RUN apt-get update \
+    && apt-get install -y libopenal1 \
+       libx11-6 \
+       libplib1 \
+       libcurl3 \
+       libqt5widgets5 \
+       libqt5qml5 \
+       libopenthreads20 \
+       libopenscenegraph100v5 \
+       strace less man \
+    && groupadd   -g 500   henrik \
+    && useradd  -c "henrik"  -g 500 -u ${UID}  henrik \
+    &&  apt-get autoclean && rm -rf /var/lib/apt/* 
+
+
+FROM runenv as buildbase
 
 ENV DEBIAN_FRONTEND noninteractive
 ARG VERSION='2017.3.1'
@@ -15,9 +38,8 @@ RUN apt-get install -y libopenscenegraph-dev
 RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y libcurl4-openssl-dev
 
-ADD nvidialayer.tar.gz /
-
-RUN mkdir /usr/src/simbuild /usr/src/fgbuild
+RUN mkdir /usr/src/simbuild /usr/src/fgbuild 
+   
 
 FROM buildbase as simbuild
 
@@ -49,28 +71,7 @@ RUN make -j 3
 RUN make install
 
 
-FROM home/ubuntu  as runenv
 
-ENV DEBIAN_FRONTEND noninteractive
-
-
-RUN apt-get update \
-    && apt-get install -y libopenal1 \
-       libx11-6 \
-       libplib1 \
-       libcurl3 \
-       libqt5widgets5 \
-       libqt5qml5 \
-       libopenthreads20 \
-       libopenscenegraph100v5 \
-       strace less man \
-       mesa-utils \
-    && groupadd   -g 500   henrik \
-    && useradd  -c "henrik"  -g 500 -u 500  henrik \
-    &&  apt-get autoclean && rm -rf /var/lib/apt/*
-
-ADD nvidialayer.tar.gz /
-RUN ldconfig
 
 FROM runenv
 

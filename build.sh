@@ -1,4 +1,12 @@
 #!/bin/bash
 
-#docker build -f Dockerfile_nv -t fg_nv .
-docker build -f Dockerfile_default -t fg_default .
+version=$1
+
+if [ -z "$version" ] ; then
+    echo "parameter required: nv or default"
+    exit 1
+fi
+
+uid=$( id -u )
+
+docker build -f Dockerfile_$version --build-arg=HOST=$( hostname )  --build-arg=UID=$uid -t fg_$version .

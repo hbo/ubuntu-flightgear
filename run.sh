@@ -14,7 +14,8 @@ vers=$1
 shift
 
 devices=()
-for d in /dev/dri/* ; do
+for d in /dev/nvidia* /dev/snd/* ; do
+    [ -d $d  ]  && continue
     devices=( ${devices[*]} "--device" "$d":"$d" )
 done
 
@@ -22,9 +23,12 @@ docker run --rm --name fgfs \
        --init  \
        ${devices[*]} \
        -v $HOME/.fgfs:/home/henrik/.fgfs \
-       -v /space/fgfs/fgdata:/fgfs \
+       -v /fgfs:/fgfs \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
-       --env DISPLAY=unix$DISPLAY \
+       --env DISPLAY=unix$DISPLAY -it \
        fg_$vers \
-        $*
-#       /usr/bin/glxgears $*
+       fgfs --fg-root=/fgfs/fgdata \
+       --fg-scenery=/fgfs/Scenery \
+       --download-dir=/fgfs/downloads \
+       --enable-terrasync \
+       $*
