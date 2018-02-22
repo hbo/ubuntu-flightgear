@@ -15,9 +15,9 @@ RUN apt-get update \
        libqt5qml5 \
        libopenthreads20 \
        libopenscenegraph100v5 \
-       strace less man \
+       strace less man alsa-utils \
     && groupadd   -g 500   henrik \
-    && useradd  -c "henrik"  -g 500 -u ${UID}  henrik \
+    && useradd  -c "henrik"  -g 500 -u ${UID} -G audio henrik \
     &&  apt-get autoclean && rm -rf /var/lib/apt/* 
 
 
