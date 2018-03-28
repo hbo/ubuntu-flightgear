@@ -1,5 +1,4 @@
-## Dockerfile and scripts to create flightgear docker image based on
-   ubuntu and run it, too.
+## Dockerfile and scripts to create flightgear docker image based on ubuntu and run it, too.
 
 ### Why?
 
