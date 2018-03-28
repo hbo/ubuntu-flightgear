@@ -24,10 +24,10 @@ RUN apt-get update \
 FROM runenv as buildbase
 
 ENV DEBIAN_FRONTEND noninteractive
-ARG VERSION='2017.3.1'
+ARG FGVERSION='2017.3.1'
 
-ADD simgear-${VERSION}.tar.bz2 /usr/src
-ADD flightgear-${VERSION}.tar.bz2 /usr/src
+ADD simgear-${FGVERSION}.tar.bz2 /usr/src
+ADD flightgear-${FGVERSION}.tar.bz2 /usr/src
 
 RUN apt-get update
 RUN apt-get install -y cmake make g++
@@ -45,17 +45,17 @@ RUN mkdir /usr/src/simbuild /usr/src/fgbuild
 
 FROM buildbase as simbuild
 
-ARG VERSION='2017.3.1'
+ARG FGVERSION='2017.3.1'
 
 WORKDIR /usr/src/simbuild 
 
-RUN cmake ../simgear-${VERSION} -DCMAKE_BUILD_TYPE=Release
+RUN cmake ../simgear-${FGVERSION} -DCMAKE_BUILD_TYPE=Release
 RUN make -j 5 
 RUN make install 
 
 FROM buildbase as fgbuild
 
-ARG VERSION='2017.3.1'
+ARG FGVERSION='2017.3.1'
 
 COPY --from=simbuild /usr/local /usr/local
 
@@ -68,7 +68,7 @@ RUN apt-get install -y libplib-dev
 RUN apt-get install -y libqt5opengl5-dev
 RUN apt-get install -y  qtdeclarative5-dev
 
-RUN cmake ../flightgear-${VERSION} -DCMAKE_BUILD_TYPE=Release
+RUN cmake ../flightgear-${FGVERSION} -DCMAKE_BUILD_TYPE=Release
 RUN make -j 5
 RUN make install
 

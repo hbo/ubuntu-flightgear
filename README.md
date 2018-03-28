@@ -11,6 +11,7 @@ dependencies in order to get flightgear to compile.
 
 This depends partly on https://github.com/hbo/ubuntu-nv
 
+The images that are built here are hardly fit to be pushed onto docker hub. 
 
 There are two Dockerfiles:
 
@@ -65,7 +66,7 @@ container:
 - $HOME/.config (for pulseaudio to work)
 - ${XDG_RUNTIME_DIR}/pulse
 
-The hostname of the container is set to the naem of the docker host
+The hostname of the container is set to the name of the docker host
 itself, in order to be connect to the X server using
 $HOME/.Xauthority.
 
