@@ -31,4 +31,43 @@ hardware and the official nvidia driver installed.
 build.sh as well as run.sh is currently tailored toward this
 Dockerfile.  
 
+### Requirements
+
+A recent version of Docker (18.03.0-ce at the time of writing),
+configured for access to Internet. 
+
+### How to build?
+
+```bash build.sh nv```
+
+Creates image in different stages, of which image fg_nv:2017.3.1_nv390.25 is
+the outcome.
+
+### How to run?
+
+```bash run.sh fgfs <flightgear options>```
+
+
+The run script tries to start the image according to the given
+parameters (fg_nv:2017.3.1_nv390.25 as a default).
+
+It mounts the following devices, files and directories into the
+container:
+
+
+- /dev/nvidia*
+- /dev/snd
+- /dev/input/js*
+- /fgfs (assumed to be the data directory)
+- /tmp/.X11-unix
+- $HOME/.Xauthority
+- $HOME/.fgfs
+- $HOME/.config (for pulseaudio to work)
+- ${XDG_RUNTIME_DIR}/pulse
+
+The hostname of the container is set to the naem of the docker host
+itself, in order to be connect to the X server using
+$HOME/.Xauthority.
+
+
 
