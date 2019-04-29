@@ -71,10 +71,13 @@ if [ -t 1 ]; then
     tflag='-t'
 fi
 
+maxmem=$( cat /proc/meminfo | grep MemAvailable: | awk '{print int($2/1024/1024*0.81) "g"}' )
+
 docker run --rm --name fgfs \
        --init  \
        --hostname $( hostname ) \
        -p 9999:9999 \
+       --kernel-memory="$maxmem" \
        ${devices[*]} \
        -e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native \
        -v ${XDG_RUNTIME_DIR}/pulse:${XDG_RUNTIME_DIR}/pulse \
