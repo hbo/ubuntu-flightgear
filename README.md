@@ -34,8 +34,10 @@ Dockerfile.
 
 ### Requirements
 
-A recent version of Docker (18.03.0-ce at the time of writing),
-configured for access to Internet. 
+- A recent version of Docker (18.03.0-ce at the time of writing), configured for access to Internet.
+- source packages of flightgear and simgear in the version
+  desired. Place the compressed tar balls in the directory together
+  with the Dockerfile. Each version needs its own tweaks. You are on your own.
 
 ### How to build?
 
